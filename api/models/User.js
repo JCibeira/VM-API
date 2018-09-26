@@ -54,18 +54,16 @@ module.exports = {
       type: 'string',
     },
 
-    passwordResetTokenTime: {
-      type: 'string',
-      columnType: 'datetime'
+    passwordResetTokenExpiresAt: {
+      type: 'number'
     },
 
     emailProofToken: {
       type: 'string',
     },
 
-    emailProofTokenTime: {
-      type: 'string',
-      columnType: 'datetime'
+    emailProofTokenExpiresAt: {
+      type: 'number'
     },
 
     emailStatus: {
@@ -81,8 +79,7 @@ module.exports = {
     },
 
     lastSeenAt: {
-      type: 'string',
-      columnType: 'datetime'
+      type: 'number'
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
