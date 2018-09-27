@@ -65,8 +65,6 @@ module.exports = {
 
         this.req.session.userId = userRecord.id;
 
-        console.log(this.req.session);
-  
         return exits.success();
   
     }
