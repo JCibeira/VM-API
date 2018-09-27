@@ -47,29 +47,25 @@ module.exports = {
   
     exits: {
   
-      invalid: {
-        responseType: 'badRequest',
-        description: 'El nombre, apellido, teléfono, email y/o contraseña proporcionados son inválidos.',
-      },
-  
-      emailAlreadyInUse: {
-        statusCode: 409,
-        description: 'El email propocionado ya esta registrado.',
-      },
-  
+        invalid: {
+            responseType: 'badRequest',
+            description: 'El nombre, apellido, teléfono, email y/o contraseña proporcionados son inválidos.',
+        },
+
+        emailAlreadyInUse: {
+            statusCode: 409,
+            description: 'El email propocionado ya esta registrado.',
+        }
+
     },
   
   
     fn: async function (inputs, exits) {
-        var crypto, newEmailAddress, newPassword, temporalCode, hashToVerify, newUserRecord;
-
-        crypto = require('crypto');
-        generator = require('generate-password');
+        var newEmailAddress, newPassword, hashToVerify, newUserRecord;
 
         newEmailAddress = inputs.emailAddress.toLowerCase();
-        newPassword = crypto.createHash('sha256').update(inputs.password).digest('hex');
-        temporalCode = generator.generate({ length: 10, numbers: true });
-        hashToVerify = crypto.createHash('sha256').update(temporalCode + newEmailAddress).digest('hex');
+        newPassword = await sails.helpers.passwords.hashPassword(inputs.password);
+        hashToVerify = await sails.helpers.strings.random('url-friendly');
   
         newUserRecord = await User.create(Object.assign({
             emailAddress: newEmailAddress,
