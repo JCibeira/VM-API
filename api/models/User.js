@@ -45,7 +45,7 @@ module.exports = {
       maxLength: 120
     },
 
-    profile_picture: {
+    profilePicture: {
       type: 'string',
       defaultsTo: 'default-avatar.png',
       maxLength: 120

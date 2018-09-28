@@ -38,9 +38,13 @@ module.exports = {
             maxLength: 120
         },
 
-        profile_picture: {
+        profilePicture: {
             type: 'string',
             maxLength: 120
+        },
+
+        type: {
+            type: 'string'
         }
   
     },
@@ -81,11 +85,31 @@ module.exports = {
             emailProofTokenExpiresAt: Date.now() + sails.config.custom.emailProofTokenTTL,
             emailStatus: false
         }:{}))
-      .intercept('E_UNIQUE', 'emailAlreadyInUse')
-      .intercept({name: 'UsageError'}, 'invalid')
-      .fetch();
+        .intercept('E_UNIQUE', 'emailAlreadyInUse')
+        .intercept({name: 'UsageError'}, 'invalid')
+        .fetch();
+
+        switch (inputs.type) {
+
+            case 'doctor':
+                newDoctor = await Doctor.create(Object.assign({
+                    user: newUserRecord.id,
+                }))
+                .intercept('E_UNIQUE', 'emailAlreadyInUse')
+                .fetch();
+            break;
+
+            case 'visitor':
+                newVisitor = await Visitor.create(Object.assign({
+                    user: newUserRecord.id,
+                }))
+                .intercept('E_UNIQUE', 'emailAlreadyInUse')
+                .fetch();
+            break;
+
+        }
   
-      return exits.success();
+        return exits.success();
   
     }
   

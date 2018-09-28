@@ -11,6 +11,9 @@
 module.exports.routes = {
 
   'POST /signup':             'entrance/signup',
-  'POST /login':             'entrance/login',
+  'POST /login':              'entrance/login',
+
+  'PUT /user/:id':            'user/update-profile',
+  'PUT /update-password':     'user/update-password',
   
 };
