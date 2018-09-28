@@ -66,6 +66,8 @@ module.exports = {
         newEmailAddress = inputs.emailAddress.toLowerCase();
         newPassword = await sails.helpers.passwords.hashPassword(inputs.password);
         hashToVerify = await sails.helpers.strings.random('url-friendly');
+
+        inputs.profile_picture;
   
         newUserRecord = await User.create(Object.assign({
             emailAddress: newEmailAddress,

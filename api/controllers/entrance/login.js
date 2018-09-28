@@ -40,7 +40,7 @@ module.exports = {
   
     fn: async function (inputs, exits) {
         
-        var userRecord
+        var userRecord;
         
         userRecord = await User.findOne({
             emailAddress: inputs.emailAddress.toLowerCase(),

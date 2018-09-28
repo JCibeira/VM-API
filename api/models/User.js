@@ -47,7 +47,14 @@ module.exports = {
 
     profile_picture: {
       type: 'string',
+      defaultsTo: 'default-avatar.png',
       maxLength: 120
+    },
+
+    userStatus: {
+      type: 'string',
+      isIn: ['unconfirmed', 'active', 'suspended'],
+      defaultsTo: 'unconfirmed'
     },
 
     passwordResetToken: {
@@ -68,7 +75,7 @@ module.exports = {
 
     emailStatus: {
       type: 'boolean',
-      defaultsTo: false,
+      defaultsTo: false
     },
 
     tosAcceptedByIp: {
@@ -90,6 +97,21 @@ module.exports = {
     //  ╔═╗╔═╗╔═╗╔═╗╔═╗╦╔═╗╔╦╗╦╔═╗╔╗╔╔═╗
     //  ╠═╣╚═╗╚═╗║ ║║  ║╠═╣ ║ ║║ ║║║║╚═╗
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
+
+    addresses: {
+      collection: 'address',
+      via: 'owner'
+    },
+
+    visitor: {
+      collection:'visitor',
+      via: 'user'
+    },
+
+    doctor: {
+      collection:'doctor',
+      via: 'user'
+    }
 
   },
 
