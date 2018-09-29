@@ -43,25 +43,35 @@ module.exports = {
   
     fn: async function (inputs, exits) {
         
-        var userRecord, newHashed;
+        var apiTokenCheck, userRecord, newHashed;
         
-        userRecord = await User.findOne({
-            id: inputs.id
-        });
-  
-        if(!userRecord) throw 'badCombo';
-
-        await sails.helpers.passwords.checkPassword(inputs.oldPassword, userRecord.password)
-        .intercept('incorrect', 'badCombo');
-
-        newHashed = await sails.helpers.passwords.hashPassword(inputs.newPassword);
-
-        await User.update({ id: inputs.id })
-        .set({
-            password: newHashed
+        apiTokenCheck = await sails.helpers.apiTokenCheck.with({
+            id: inputs.id,
+            apiToken: inputs.apiToken
         });
 
-        return exits.success();
+        if(apiTokenCheck.condition) {
+            
+            userRecord = await User.findOne({
+                id: inputs.id
+            });
+      
+            if(!userRecord) throw 'badCombo';
+    
+            await sails.helpers.passwords.checkPassword(inputs.oldPassword, userRecord.password)
+            .intercept('incorrect', 'badCombo');
+    
+            newHashed = await sails.helpers.passwords.hashPassword(inputs.newPassword);
+    
+            await User.update({ id: inputs.id })
+            .set({
+                password: newHashed
+            });
+    
+            return exits.success();
+            
+        }
+        else throw 'badCombo';
 
     }
   
