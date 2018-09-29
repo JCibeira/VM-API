@@ -15,5 +15,13 @@ module.exports.routes = {
 
   'PUT /user/:id':            'user/update-profile',
   'PUT /update-password':     'user/update-password',
+  'POST /all-users':          'user/get-all-users',
+
+  'POST /address':            'address/new-address',
+  'POST /address/:id':        'address/get-address',
+  'POST /user-addresses':     'address/get-all-user-address',
+  'POST /all-address':        'address/get-all-address',
+  'PUT /address/:id':         'address/update-address',
+  'DELETE /address/:id':      'address/delete-address',
   
 };

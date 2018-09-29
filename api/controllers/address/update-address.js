@@ -1,8 +1,8 @@
 module.exports = {
 
-    friendlyName: 'Update profile',
+    friendlyName: 'Update address',
   
-    description: 'Update the profile for the logged-in user.',
+    description: 'Update specific address for the logged-in user.',
   
     inputs: {
 
@@ -10,22 +10,22 @@ module.exports = {
             type: 'number'
         },
 
-        name: {
-            type: 'string'
+        userId: {
+            type: 'number'
         },
 
-        lastName: {
+        description: {
             type: 'string'
         },
-
-        phone: {
+      
+        latitude: {
             type: 'string'
         },
-
-        profilePicture: {
+    
+        longitude: {
             type: 'string'
         },
-
+      
         apiToken: {
             type: 'string'
         }
@@ -36,13 +36,12 @@ module.exports = {
     fn: async function (inputs, exits) {
         
         var valuesToSet = {
-            name: inputs.name,
-            lastName: inputs.lastName,
-            phone: inputs.phone,
-            profilePicture: inputs.profilePicture
+            description: inputs.description,
+            latitude: inputs.latitude,
+            longitude: inputs.longitude
         };
 
-        await User.update({id: inputs.id }).set(valuesToSet);
+        await Address.update({id: inputs.id }).set(valuesToSet);
 
         return exits.success();
   

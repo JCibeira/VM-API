@@ -14,15 +14,18 @@ module.exports = {
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
     description: {
-      type: 'string'
+      type: 'string',
+      maxLength: 512
     },
 
     latitude: {
-      type: 'string'
+      type: 'string',
+      maxLength: 20
     },
 
     longitude: {
-      type: 'string'
+      type: 'string',
+      maxLength: 21
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

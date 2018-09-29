@@ -53,12 +53,12 @@ module.exports = {
   
         invalid: {
             responseType: 'badRequest',
-            description: 'El nombre, apellido, teléfono, email y/o contraseña proporcionados son inválidos.',
+            description: 'Los parámetros proporcionados son inválidos.'
         },
 
         emailAlreadyInUse: {
             statusCode: 409,
-            description: 'El email propocionado ya esta registrado.',
+            description: 'El email propocionado ya esta registrado.'
         }
 
     },
@@ -92,7 +92,7 @@ module.exports = {
         switch (inputs.type) {
 
             case 'doctor':
-                newDoctor = await Doctor.create(Object.assign({
+                var newDoctor = await Doctor.create(Object.assign({
                     user: newUserRecord.id,
                 }))
                 .intercept('E_UNIQUE', 'emailAlreadyInUse')
@@ -100,7 +100,7 @@ module.exports = {
             break;
 
             case 'visitor':
-                newVisitor = await Visitor.create(Object.assign({
+                var newVisitor = await Visitor.create(Object.assign({
                     user: newUserRecord.id,
                 }))
                 .intercept('E_UNIQUE', 'emailAlreadyInUse')
