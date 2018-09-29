@@ -92,19 +92,19 @@ module.exports = {
         switch (inputs.type) {
 
             case 'doctor':
-                var newDoctor = await Doctor.create(Object.assign({
-                    user: newUserRecord.id,
+                await Doctor.create(Object.assign({
+                    user: newUserRecord.id
                 }))
                 .intercept('E_UNIQUE', 'emailAlreadyInUse')
-                .fetch();
+                .intercept({name: 'UsageError'}, 'invalid');
             break;
 
             case 'visitor':
-                var newVisitor = await Visitor.create(Object.assign({
-                    user: newUserRecord.id,
+                await Visitor.create(Object.assign({
+                    user: newUserRecord.id
                 }))
                 .intercept('E_UNIQUE', 'emailAlreadyInUse')
-                .fetch();
+                .intercept({name: 'UsageError'}, 'invalid');
             break;
 
         }

@@ -103,6 +103,11 @@ module.exports = {
       via: 'owner'
     },
 
+    sessions: {
+      collection: 'sessions',
+      via: 'user'
+    },
+
     visitor: {
       collection:'visitor',
       via: 'user'

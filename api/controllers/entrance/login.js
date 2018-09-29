@@ -25,25 +25,26 @@ module.exports = {
   
   
     exits: {
-  
-        success: {
-            description: 'El usuario solicitante ha iniciado sesión correctamente.',
+        
+        invalid: {
+            responseType: 'badRequest',
+            description: 'Los parámetros proporcionados son inválidos.'
         },
   
         badCombo: {
             statusCode: 401,
             description: 'La combinación de correo electrónico y contraseña proporcionada no coincide con ningún usuario en la base de datos.'
-      }
+        }
   
     },
   
   
     fn: async function (inputs, exits) {
         
-        var userRecord;
+        var userRecord, response, apiToken, cookieAge;
         
         userRecord = await User.findOne({
-            emailAddress: inputs.emailAddress.toLowerCase(),
+            emailAddress: inputs.emailAddress.toLowerCase()
         });
   
         if(!userRecord) throw 'badCombo';
@@ -51,21 +52,31 @@ module.exports = {
         await sails.helpers.passwords.checkPassword(inputs.password, userRecord.password)
         .intercept('incorrect', 'badCombo');
 
-        if (inputs.rememberMe) {
-            if (this.req.isSocket) {
-                sails.log.warn(
-                    'Received `rememberMe: true` from a virtual request, but it was ignored\n'+
-                    'because a browser\'s session cookie cannot be reset over sockets.\n'+
-                    'Please use a traditional HTTP request instead.'
-                );
-            } else {
-                this.req.session.cookie.maxAge = sails.config.custom.rememberMeCookieMaxAge;
-            }
-        }
+        if (inputs.rememberMe)
+            cookieAge = sails.config.custom.rememberMeCookieMaxAge;
+        else
+            cookieAge = sails.config.custom.rememberMeCookieMinAge;
 
-        this.req.session.userId = userRecord.id;
+        apiToken = await sails.helpers.strings.random();
 
-        return exits.success();
+        await Sessions.create(Object.assign({
+            token: apiToken,
+            user: userRecord.id,
+            expires: Date.now() + cookieAge
+        }))
+        .intercept({name: 'UsageError'}, 'invalid');
+
+        response = {
+            id: userRecord.id,
+            emailAddress: userRecord.emailAddress,
+            name: userRecord.name,
+            lastName: userRecord.lastName,
+            phone: userRecord.phone,
+            profilePicture: userRecord.profilePicture,
+            apiToken: apiToken
+        };
+
+        return exits.success(response);
   
     }
   
