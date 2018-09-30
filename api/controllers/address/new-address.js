@@ -40,7 +40,7 @@ module.exports = {
   
     fn: async function (inputs, exits) {
         
-        var newAddress = await Address.create(Object.assign({
+        await Address.create(Object.assign({
             description: inputs.description,
             latitude: inputs.latitude,
             longitude: inputs.longitude,

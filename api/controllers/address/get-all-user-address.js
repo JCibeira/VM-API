@@ -6,7 +6,7 @@ module.exports = {
   
     inputs: {
         
-        userId: {
+        id: {
             type: 'number'
         },
 
@@ -19,7 +19,7 @@ module.exports = {
     exits: {
 
         noAddressFound: {
-            statusCode: 404,
+            responseType: 'notFound',
             description: 'Could not find the address, sorry.'
         }
     
@@ -28,7 +28,7 @@ module.exports = {
 
     fn: async function (inputs, exits) {
         
-        var addresses = await Address.find({ owner: inputs.userId });
+        var addresses = await Address.find({ owner: inputs.id });
 
         if (!addresses) throw 'noAddressFound';
           

@@ -1,28 +1,16 @@
 module.exports = {
 
-    friendlyName: 'Update profile',
-  
-    description: 'Update the profile for the logged-in user.',
+    friendlyName: 'Update User State',
+    
+    description: 'Update the user state for the logged-in user.',
   
     inputs: {
-
+        
         id: {
             type: 'number'
         },
 
-        name: {
-            type: 'string'
-        },
-
-        lastName: {
-            type: 'string'
-        },
-
-        phone: {
-            type: 'string'
-        },
-
-        profilePicture: {
+        status: {
             type: 'string'
         },
 
@@ -31,7 +19,7 @@ module.exports = {
         }
   
     },
-    
+  
     exits: {
   
         badCombo: {
@@ -44,7 +32,7 @@ module.exports = {
   
     fn: async function (inputs, exits) {
         
-        var apiTokenCheck, valuesToSet;
+        var apiTokenCheck;
         
         apiTokenCheck = await sails.helpers.apiTokenCheck.with({
             id: inputs.id,
@@ -53,15 +41,7 @@ module.exports = {
 
         if(apiTokenCheck.condition) {
 
-            valuesToSet = {
-                name: inputs.name,
-                lastName: inputs.lastName,
-                phone: inputs.phone,
-                profilePicture: inputs.profilePicture
-            };
-
-            await User.update({id: inputs.id }).set(valuesToSet);
-
+            await User.update({id: inputs.id }).set({ userStatus: inputs.status });
             return exits.success();
         }
         

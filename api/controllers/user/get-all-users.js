@@ -18,8 +18,8 @@ module.exports = {
 
     exits: {
 
-        nousersFound: {
-            statusCode: 404,
+        noUsersFound: {
+            responseType: 'notFound',
             description: 'Could not find the users, sorry.'
         }
     
@@ -30,7 +30,7 @@ module.exports = {
         
         var users = await User.find();
 
-        if (!users) throw 'nousersFound';
+        if (!users) throw 'noUsersFound';
           
         return exits.success(users);
   

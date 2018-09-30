@@ -23,7 +23,7 @@ module.exports = {
     exits: {
 
         noAddressFound: {
-            statusCode: 404,
+            responseType: 'notFound',
             description: 'Could not find the address, sorry.'
         }
     

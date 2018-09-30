@@ -71,7 +71,8 @@ module.exports = {
             return exits.success();
             
         }
-        else throw 'badCombo';
+        
+        throw 'badCombo';
 
     }
   
