@@ -7,23 +7,25 @@ module.exports = {
     inputs: {
 
         id: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         oldPassword: {
+            type: 'string',
             description: 'The old, unencrypted password.',
-            example: 'abc123v2',
             required: true
         },
 
         newPassword: {
+            type: 'string',
             description: 'The new, unencrypted password.',
-            example: 'abc123v2',
             required: true
         },
 
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
     },
@@ -35,22 +37,26 @@ module.exports = {
         },
   
         badCombo: {
-            statusCode: 401,
+            responseType: 'bad-combo',
             description: 'La contraseña proporcionada es errónea.'
+        },
+
+        invalidToken: {
+            responseType: 'expired'
         }
   
     },
   
     fn: async function (inputs, exits) {
         
-        var apiTokenCheck, userRecord, newHashed;
+        var apiTokenVerify, userRecord, newHashed;
         
-        apiTokenCheck = await sails.helpers.apiTokenCheck.with({
+        apiTokenVerify = await sails.helpers.apiTokenVerify.with({
             id: inputs.id,
             apiToken: inputs.apiToken
         });
 
-        if(apiTokenCheck.condition) {
+        if(apiTokenVerify.condition) {
             
             userRecord = await User.findOne({
                 id: inputs.id
@@ -62,17 +68,14 @@ module.exports = {
             .intercept('incorrect', 'badCombo');
     
             newHashed = await sails.helpers.passwords.hashPassword(inputs.newPassword);
-    
-            await User.update({ id: inputs.id })
-            .set({
-                password: newHashed
-            });
+
+            await User.update({ id: inputs.id }).set({ password: newHashed });
     
             return exits.success();
             
         }
         
-        throw 'badCombo';
+        throw 'invalidToken';
 
     }
   

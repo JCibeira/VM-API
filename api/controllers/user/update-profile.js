@@ -7,7 +7,8 @@ module.exports = {
     inputs: {
 
         id: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         name: {
@@ -27,31 +28,35 @@ module.exports = {
         },
 
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
     },
     
     exits: {
-  
-        badCombo: {
-            statusCode: 401,
-            description: 'Los datos proporcionados son erróneos.'
+        
+        success: {
+            description: 'Se catualizaron los datos correctamente.',
+        },
+
+        invalidToken: {
+            responseType: 'expired'
         }
-  
+        
     },
   
   
     fn: async function (inputs, exits) {
         
-        var apiTokenCheck, valuesToSet;
+        var apiTokenVerify, valuesToSet;
         
-        apiTokenCheck = await sails.helpers.apiTokenCheck.with({
+        apiTokenVerify = await sails.helpers.apiTokenVerify.with({
             id: inputs.id,
             apiToken: inputs.apiToken
         });
 
-        if(apiTokenCheck.condition) {
+        if(apiTokenVerify.condition) {
 
             valuesToSet = {
                 name: inputs.name,
@@ -65,7 +70,7 @@ module.exports = {
             return exits.success();
         }
         
-        throw 'badCombo';
+        throw 'invalidToken';
   
     }
   

@@ -1,17 +1,19 @@
 module.exports = {
 
-    friendlyName: 'Api token check',
+    friendlyName: 'Api token Verify',
 
-    description: 'Check the Api token',
+    description: 'Verify the Api token',
 
     inputs: {
       
         id: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
       
     },

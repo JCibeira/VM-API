@@ -12,11 +12,13 @@ module.exports = {
         },
 
         password: {
+            type: 'string',
             description: 'The new, unencrypted password.',
             required: true
         },
   
         token: {
+            type: 'string',
             description: 'The password token that was generated.',
             required: true
         }
@@ -26,7 +28,6 @@ module.exports = {
     exits: {
   
         invalidToken: {
-            description: 'El token proporcionado no es válido, ha caducado o ya se ha utilizado.',
             responseType: 'expired'
         }
   

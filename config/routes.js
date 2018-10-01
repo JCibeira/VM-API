@@ -16,8 +16,8 @@ module.exports.routes = {
   'PUT /update-password-recovery':    'entrance/update-password-recovery',
 
   'POST /all-users':                  'user/get-all-users',
-  'PUT /user/:id':                    'user/update-profile',
-  'PUT /update-password/:id':         'user/update-password',
+  'PUT /user/:id':                    'user/update-profile', // 
+  'PUT /update-password/:id':         'user/update-password', // 
   'PUT /update-user-state/:id':       'user/update-user-state',
 
   'POST /address':                    'address/new-address',

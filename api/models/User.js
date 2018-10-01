@@ -51,6 +51,11 @@ module.exports = {
       maxLength: 120
     },
 
+    isAdmin: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
     userStatus: {
       type: 'string',
       isIn: ['unconfirmed', 'active', 'suspended'],

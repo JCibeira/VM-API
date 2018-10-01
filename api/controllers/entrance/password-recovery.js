@@ -7,7 +7,6 @@ module.exports = {
     inputs: {
   
         emailAddress: {
-            description: 'The email address of the alleged user who wants to recover their password.',
             type: 'string',
             required: true
         }
