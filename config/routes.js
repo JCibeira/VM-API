@@ -29,7 +29,7 @@ module.exports.routes = {
 
   'POST /appointment':                'appointment/new-appointment',
   'POST /appointment/:id':            'appointment/get-appointment',
-  'POST /user-appointment/:id':       'appointment/get-all-user-appointment',
+  'POST /user-appointment/:user':     'appointment/get-all-user-appointment',
   'POST /all-appointments':           'appointment/get-all-appointment',
   'PUT /appointment/:id':             'appointment/update-appointment',
   'DELETE /appointment/:id':          'appointment/delete-appointment',

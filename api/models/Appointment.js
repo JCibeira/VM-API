@@ -50,11 +50,11 @@ module.exports = {
     //  ╩ ╩╚═╝╚═╝╚═╝╚═╝╩╩ ╩ ╩ ╩╚═╝╝╚╝╚═╝
 
     visitor: {
-      model: 'visitor'
+      model: 'user'
     },
 
     doctor: {
-      model: 'doctor'
+      model: 'user'
     }
 
   },
