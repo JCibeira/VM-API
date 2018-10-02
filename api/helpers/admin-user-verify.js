@@ -22,7 +22,7 @@ module.exports = {
 
         if(!admin) return exits.success({ condition: false });
 
-        return exits.success({ condition: false });
+        return exits.success({ condition: true });
 
     }
 

@@ -13,6 +13,16 @@ module.exports = {
     //  ╠═╝╠╦╝║║║║║ ║ ║╚╗╔╝║╣ ╚═╗
     //  ╩  ╩╚═╩╩ ╩╩ ╩ ╩ ╚╝ ╚═╝╚═╝
 
+    type: {
+      type: 'string',
+      isIn: ['none', 'doctor', 'visitor'],
+      defaultsTo: 'none',
+      extendedDescription: 
+        ` none: usuario sin rol, puede ser un admin.
+        doctor: usuario registrado como doctor.
+        visitor: usuario registrado como visitador médico.`
+    },
+
     emailAddress: {
       type: 'string',
       required: true,
@@ -113,14 +123,14 @@ module.exports = {
       via: 'user'
     },
 
-    visitor: {
-      collection:'visitor',
-      via: 'user'
+    agendaVisitor: {
+      collection: 'appointment',
+      via: 'visitor'
     },
 
-    doctor: {
-      collection:'doctor',
-      via: 'user'
+    agendaDoctor: {
+      collection: 'appointment',
+      via: 'doctor'
     }
 
   },

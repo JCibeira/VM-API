@@ -34,7 +34,11 @@ module.exports.datastores = {
 
   default: {
     adapter: 'sails-mysql',
-    url: 'mysql://vm_admin:hcyJvF1ankFV0nE@localhost:3306/vm',
+    user: 'root',
+    password: 'root',
+    port: '3306',
+    host: 'localhost',
+    database: 'VMDB'
   },
 
 
