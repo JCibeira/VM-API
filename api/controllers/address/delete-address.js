@@ -7,28 +7,54 @@ module.exports = {
     inputs: {
 
         id: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         userId: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
       
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
+    },
+    
+    exits: {
+        
+        success: {
+            responseType: 'success',
+            description: 'Dirección borrada correctamente.',
+        },
+
+        invalidToken: {
+            responseType: 'expired'
+        }
+
     },
   
   
     fn: async function (inputs, exits) {
+        
+        var apiTokenVerify;
+        
+        apiTokenVerify = await sails.helpers.apiTokenVerify.with({
+            id: inputs.userId,
+            apiToken: inputs.apiToken
+        });
 
-        var deleteAddress = await Address.destroy({id: inputs.id}).fetch();
+        if(apiTokenVerify.condition) {
 
-        /*if (deleteAddress.length === 0) sails.log('No book found with id.');
-        else sails.log('Deleted book with id', deleteAddress[0]);*/
+            await Address.destroy({ id: inputs.id, owner: inputs.userId }).fetch();
 
-        return exits.success();
+            return exits.success();
+
+        }
+
+        throw 'invalidToken';
   
     }
   

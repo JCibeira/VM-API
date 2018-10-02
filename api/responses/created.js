@@ -10,8 +10,8 @@ module.exports = function created() {
 
     result = {
         status: 201,
-        message: 'El recurso se ha creado de anera correcta.'
+        message: 'El recurso se ha creado de manera correcta.'
     };
   
-    return res.status(201).json(result);
+    return res.json(result);
 };

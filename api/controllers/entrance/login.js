@@ -17,8 +17,8 @@ module.exports = {
         },
   
         rememberMe: {
-            description: 'Whether to extend the lifetime of the user\'s session.',
-            type: 'boolean'
+            type: 'boolean',
+            required: true
         }
   
     },

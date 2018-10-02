@@ -6,33 +6,47 @@ module.exports = {
   
     inputs: {
 
-        userId: {
-            type: 'number'
+        id: {
+            type: 'number',
+            required: true
         },
 
         description: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
       
         latitude: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
     
         longitude: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
       
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
     },
 
     exits: {
-  
+        
+        success: {
+            responseType: 'created',
+            description: 'Dirección creada correctamente.',
+        },
+
         invalid: {
-            responseType: 'badRequest',
+            responseType: 'bad-combo',
             description: 'Los parámetros proporcionados son inválidos.'
+        },
+
+        invalidToken: {
+            responseType: 'expired'
         }
 
     },
@@ -40,17 +54,30 @@ module.exports = {
   
     fn: async function (inputs, exits) {
         
-        await Address.create(Object.assign({
-            description: inputs.description,
-            latitude: inputs.latitude,
-            longitude: inputs.longitude,
-            owner: inputs.userId
-        }))
-        .intercept({name: 'UsageError'}, 'invalid')
-        .fetch();
+        var apiTokenVerify;
+        
+        apiTokenVerify = await sails.helpers.apiTokenVerify.with({
+            id: inputs.id,
+            apiToken: inputs.apiToken
+        });
 
-        return exits.success();
-  
+        if(apiTokenVerify.condition) {
+
+            await Address.create(Object.assign({
+                description: inputs.description,
+                latitude: inputs.latitude,
+                longitude: inputs.longitude,
+                owner: inputs.id
+            }))
+            .intercept({name: 'UsageError'}, 'invalid')
+            .fetch();
+
+            return exits.success();
+
+        }
+
+        throw 'invalidToken';
+
     }
   
   

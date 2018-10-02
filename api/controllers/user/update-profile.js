@@ -37,7 +37,7 @@ module.exports = {
     exits: {
         
         success: {
-            description: 'Se catualizaron los datos correctamente.',
+            description: 'Se actualizaron los datos correctamente.',
         },
 
         invalidToken: {

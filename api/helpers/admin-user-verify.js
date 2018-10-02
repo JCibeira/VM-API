@@ -2,7 +2,7 @@ module.exports = {
 
     friendlyName: 'Admin user Verify',
 
-    description: 'Verify if the user is Admin',
+    description: 'Verify if the user is Admin.',
 
     inputs: {
         
@@ -22,7 +22,7 @@ module.exports = {
 
         if(!admin) return exits.success({ condition: false });
 
-        return exits.success({ condition: false });
+        return exits.success({ condition: true });
 
     }
 

@@ -7,24 +7,26 @@ module.exports = {
     inputs: {
         
         id: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         status: {
-            type: 'string'
+            type: 'string',
+            required: true
         },
 
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
     },
   
     exits: {
-  
-        badCombo: {
-            statusCode: 401,
-            description: 'Los datos proporcionados son erróneos.'
+        
+        invalidToken: {
+            responseType: 'expired'
         }
   
     },
@@ -32,20 +34,20 @@ module.exports = {
   
     fn: async function (inputs, exits) {
         
-        var apiTokenCheck;
+        var apiTokenVerify;
         
-        apiTokenCheck = await sails.helpers.apiTokenCheck.with({
+        apiTokenVerify = await sails.helpers.apiTokenVerify.with({
             id: inputs.id,
             apiToken: inputs.apiToken
         });
 
-        if(apiTokenCheck.condition) {
+        if(apiTokenVerify.condition) {
 
             await User.update({id: inputs.id }).set({ userStatus: inputs.status });
             return exits.success();
         }
         
-        throw 'badCombo';
+        throw 'invalidToken';
   
     }
   

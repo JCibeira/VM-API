@@ -13,13 +13,11 @@ module.exports = {
 
         oldPassword: {
             type: 'string',
-            description: 'The old, unencrypted password.',
             required: true
         },
 
         newPassword: {
             type: 'string',
-            description: 'The new, unencrypted password.',
             required: true
         },
 

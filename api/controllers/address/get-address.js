@@ -7,15 +7,18 @@ module.exports = {
     inputs: {
         
         id: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         userId: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
     },
@@ -23,8 +26,12 @@ module.exports = {
     exits: {
 
         noAddressFound: {
-            responseType: 'notFound',
-            description: 'Could not find the address, sorry.'
+            responseType: 'not-found',
+            description: 'No se pudo encontrar la dirección.'
+        },
+
+        invalidToken: {
+            responseType: 'expired'
         }
     
     },
@@ -32,13 +39,25 @@ module.exports = {
 
     fn: async function (inputs, exits) {
         
-        var address = await Address.findOne({
-            id: inputs.id
+        var apiTokenVerify, address;
+        
+        apiTokenVerify = await sails.helpers.apiTokenVerify.with({
+            id: inputs.userId,
+            apiToken: inputs.apiToken
         });
 
-        if (!address) throw 'noAddressFound';
-          
-        return exits.success(address);
+        if(apiTokenVerify.condition) {
+
+            //
+            address = await Address.findOne({ id: inputs.id, owner: inputs.userId });
+
+            if (!address) throw 'noAddressFound';
+            
+            return exits.success(address);
+
+        }
+
+        throw 'invalidToken';
   
     }
   

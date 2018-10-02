@@ -7,11 +7,13 @@ module.exports = {
     inputs: {
 
         id: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         userId: {
-            type: 'number'
+            type: 'number',
+            required: true
         },
 
         description: {
@@ -27,23 +29,49 @@ module.exports = {
         },
       
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
     },
-  
+    
+    exits: {
+        
+        success: {
+            responseType: 'success',
+            description: 'Dirección editada correctamente.',
+        },
+
+        invalidToken: {
+            responseType: 'expired'
+        }
+
+    },
   
     fn: async function (inputs, exits) {
         
-        var valuesToSet = {
-            description: inputs.description,
-            latitude: inputs.latitude,
-            longitude: inputs.longitude
-        };
+        var apiTokenVerify, valuesToSet;
+        
+        apiTokenVerify = await sails.helpers.apiTokenVerify.with({
+            id: inputs.userId,
+            apiToken: inputs.apiToken
+        });
 
-        await Address.update({id: inputs.id }).set(valuesToSet);
+        if(apiTokenVerify.condition) {
 
-        return exits.success();
+            valuesToSet = {
+                description: inputs.description,
+                latitude: inputs.latitude,
+                longitude: inputs.longitude
+            };
+
+            await Address.update({id: inputs.id }).set(valuesToSet);
+
+            return exits.success();
+
+        }
+
+        throw 'invalidToken';
   
     }
   

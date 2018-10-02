@@ -10,7 +10,7 @@ module.exports = function notFound() {
 
     result = {
         status: 404,
-        message: 'No se pudieron encontrar los recursos, lo siento.'
+        message: 'No se pudieron encontrar los recursos.'
     };
   
     return res.status(404).json(result);

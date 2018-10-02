@@ -2,7 +2,7 @@ module.exports = {
 
     friendlyName: 'Api token Verify',
 
-    description: 'Verify the Api token',
+    description: 'Verify the Api token.',
 
     inputs: {
       

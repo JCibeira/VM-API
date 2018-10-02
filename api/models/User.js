@@ -56,7 +56,7 @@ module.exports = {
       defaultsTo: false
     },
 
-    userStatus: {
+    status: {
       type: 'string',
       isIn: ['unconfirmed', 'active', 'suspended'],
       defaultsTo: 'unconfirmed'

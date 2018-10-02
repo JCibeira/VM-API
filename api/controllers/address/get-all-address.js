@@ -6,21 +6,37 @@ module.exports = {
   
     inputs: {
         
-        userId: {
-            type: 'number'
+        id: {
+            type: 'number',
+            required: true
         },
 
+        isAdmin: {
+            type: 'boolean',
+            required: true
+        },
+        
         apiToken: {
-            type: 'string'
+            type: 'string',
+            required: true
         }
   
     },
 
     exits: {
+        
+        unauthorizedUser: {
+            responseType: 'unauthorized',
+            description: 'No estas autorizado para realizar esta acción.'
+        },
 
         noAddressFound: {
-            responseType: 'notFound',
-            description: 'Could not find address, sorry.'
+            responseType: 'not-found',
+            description: 'No se pudieron encontrar las direcciones.'
+        },
+
+        invalidToken: {
+            responseType: 'expired'
         }
     
     },
@@ -28,12 +44,39 @@ module.exports = {
 
     fn: async function (inputs, exits) {
         
-        var addresses = await Address.find();
+        var adminUserVerify, apiTokenVerify, addresses;
+        
+        if (inputs.isAdmin) {
+            
+            adminUserVerify = await sails.helpers.adminUserVerify.with({ id: inputs.id });
+            
+            if(adminUserVerify.condition) {
 
-        if (!addresses) throw 'noAddressFound';
-          
-        return exits.success(addresses);
-  
+                apiTokenVerify = await sails.helpers.apiTokenVerify.with({
+                    id: inputs.id,
+                    apiToken: inputs.apiToken
+                });
+
+                if(apiTokenVerify.condition) {
+
+                    addresses = await Address.find();
+
+                    if (!addresses) throw 'noAddressFound';
+                    
+                    return exits.success(addresses);
+
+                }
+
+                throw 'invalidToken';
+
+            }
+
+            throw 'unauthorizedUser';
+
+        }
+
+        throw 'unauthorizedUser';
+        
     }
   
   };

@@ -6,7 +6,7 @@ module.exports = {
   
     inputs: {
         
-        userId: {
+        id: {
             type: 'number',
             required: true
         },
@@ -72,6 +72,8 @@ module.exports = {
             throw 'unauthorizedUser';
 
         }
+
+        throw 'unauthorizedUser';
         
     }
   
